@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mywebappimg-deploy
+  name: bankapp-eta-deploy
   labels:
-    app: mywebappimg-app
+    app: bankapp-eta-app
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: mywebappimg-app
+      app: bankapp-eta-app
   template:
     metadata:
       labels:
-        app: mywebappimg-app
+        app: bankapp-eta-app
     spec:
       containers:
-      - name: mywebappimg-container
-        image: pallavi2320/mywebappimg
+      - name: bankapp-eta-container
+        image: pallavi2320/bankapp-eta-app
         ports:
         - containerPort: 8081
 ---
