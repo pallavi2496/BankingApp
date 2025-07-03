@@ -10,7 +10,7 @@ pipeline {
         stage('SCM_Checkout') {
             steps {
                 echo 'Perform SCM Checkout'
-				git 'https://github.com/pallai2496/BankingApp.git'
+				git 'https://github.com/pallavi2496/BankingApp.git'
             }
         }
         stage('Application Build') {
@@ -24,7 +24,7 @@ pipeline {
             steps {
                 echo 'Perform Docker Build'
 				sh "docker build -t pallavi2320/bankapp-eta-app:${BUILD_NUMBER} ."
-				sh "docker tag pallavi2320/bankapp-eta-app:${BUILD_NUMBER} pallavi2320/bankapp-eta-app:v1.0"
+			    sh "docker tag pallavi2320/bankapp-eta-app:${BUILD_NUMBER} pallavi2320/bankapp-eta-app:latest"
 				sh 'docker image list'
             }
         }
@@ -38,15 +38,15 @@ pipeline {
         stage('Publish the Image to Dockerhub') {
             steps {
                 echo 'Publish to DockerHub'
-				sh "docker push pallavi2320/bankapp-eta-app:v1.0"                
+				sh "docker push pallavi2320/bankapp-eta-app:latest"                
             }
         }
         stage('Deploy to Kubernetes Cluster') {
             steps {
 				script {
-				sshPublisher(publishers: [sshPublisherDesc(configName: 'Kubernetes_Master', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'kubectl apply -f kubernetesdeploy.yaml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '*.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
-			}				          
+		     		sshPublisher(publishers: [sshPublisherDesc(configName: 'Kubernetes_Master', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'kubectl apply -f kubernetesdeploy.yaml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '*.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+		    	}				          
             }
         }
     }
-}		
+}			
