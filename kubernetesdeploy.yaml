@@ -23,15 +23,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: bankapp-eta-np-service
-  labels:
-    app: bankapp-eta-app
+  name: bankapp-eta-service
 spec:
+  type: NodePort
   selector:
     app: bankapp-eta-app
-
-  type: NodePort
   ports:
-  - nodePort: 31032    
-    port: 8081
-    targetPort: 8082
+  -   port: 80
+      target port: 8081
+      nodePort: 30081
